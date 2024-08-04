@@ -33,6 +33,12 @@ def setup_routes(app):
                       completed:
                         type: boolean
                         description: Completion status of the TODO item
+                      description:
+                        type: text
+                        description: Description of the TODO item
+                      priority:
+                        type: integer
+                        description: Priority of the TODO item
         """
         with db.session() as session:
             todos = session.query(ToDo).all()
@@ -71,6 +77,12 @@ def setup_routes(app):
                     completed:
                       type: boolean
                       description: Completion status of the TODO item
+                    description:
+                      type: text
+                      description: Description of the TODO item
+                    priority:
+                      type: integer
+                      description: Priority of the TODO item
           400:
             description: Bad request, title is required
             content:
@@ -85,7 +97,7 @@ def setup_routes(app):
         data = request.get_json() or {}
         if 'title' not in data:
             return jsonify({'error': 'Title is required'}), 400
-        todo = ToDo(title=data['title'])
+        todo = ToDo(title=data['title'], description=data['description'], priority=data['priority'])
         with db.session() as session:
             session.add(todo)
             session.commit()
@@ -120,6 +132,12 @@ def setup_routes(app):
                     completed:
                       type: boolean
                       description: Completion status of the TODO item
+                    description:
+                      type: text
+                      description: Description of the TODO item
+                    priority:
+                      type: integer
+                      description: Priority of the TODO item
           404:
             description: TODO item not found
             content:
@@ -164,6 +182,14 @@ def setup_routes(app):
                     type: boolean
                     description: The updated completion status
                     example: true
+                  description:
+                    type: text
+                    description: The updated description
+                    example: "Updated Description"
+                  priority:
+                    type: integer
+                    description: The updated priority
+                    example: 1
         responses:
           200:
             description: The updated TODO item
@@ -181,6 +207,12 @@ def setup_routes(app):
                     completed:
                       type: boolean
                       description: Completion status of the TODO item
+                    description:
+                      type: text
+                      description: Description of the TODO item
+                    priority:
+                      type: integer
+                      description: Priority of the TODO item
           404:
             description: TODO item not found
             content:
@@ -199,6 +231,8 @@ def setup_routes(app):
             data = request.get_json() or {}
             todo.title = data.get('title', todo.title)
             todo.completed = data.get('completed', todo.completed)
+            todo.description = data.get('description', todo.description)
+            todo.priority = data.get('priority', todo.priority)
             session.commit()
             return jsonify(todo.to_dict())
 
