@@ -109,7 +109,7 @@
             <h3>GET /todos</h3>
             <p>Retrieve a list of all TODO items.</p>
             <pre><code>GET /todos</code></pre>
-            <p>This endpoint returns a JSON array of all TODO items stored in the database. Each item includes its ID, title, and completion status.</p>
+            <p>This endpoint returns a JSON array of all TODO items stored in the database. Each item includes its ID, title, completion status, description, and priority level.</p>
             <div class="code">
                 <h4>Responses:</h4>
                 <pre><code>200 OK
@@ -117,7 +117,9 @@
   {
     "id": 1,
     "title": "Example Task",
-    "completed": false
+    "completed": false,
+    "description": "Example Description",
+    "priority": 1
   }
 ]</code></pre>
                 <pre><code>500 Internal Server Error
@@ -137,14 +139,16 @@
   "title": "New Task"
 }</code></pre>
             </div>
-            <p>The title is required to create a new TODO item. The response will include the ID of the newly created item and its initial completion status (false by default).</p>
+            <p>The title is required to create a new TODO item. The response will include the ID of the newly created item, its initial completion status (false by default), detailed description, and priority level.</p>
             <div class="code">
                 <h4>Responses:</h4>
                 <pre><code>201 Created
 {
   "id": 1,
   "title": "New Task",
-  "completed": false
+  "completed": false,
+  "description": "Task Description",
+  "priority": 1
 }</code></pre>
                 <pre><code>400 Bad Request
 {
@@ -164,7 +168,9 @@
 {
   "id": 1,
   "title": "Example Task",
-  "completed": false
+  "completed": false,
+  "description": "Example Description",
+  "priority": 1
 }</code></pre>
                 <pre><code>404 Not Found
 {
@@ -181,10 +187,12 @@
             <div class="example">
                 <pre><code>{
   "title": "Updated Task",
-  "completed": true
+  "completed": true,
+  "description": "Updated Description",
+  "priority": 1
 }</code></pre>
             </div>
-            <p>Update the title and completion status of an existing TODO item. If not provided, the title or completed fields will remain unchanged. The response includes the updated item details.</p>
+            <p>Update the title, completion status, description, and priority level of an existing TODO item. If not provided, the title, completed, description, or priority fields will remain unchanged. The response includes the updated item details.</p>
             <div class="code">
                 <h4>Responses:</h4>
                 <pre><code>200 OK
@@ -192,6 +200,8 @@
   "id": 1,
   "title": "Updated Task",
   "completed": true
+  "description": "Updated Description",
+  "priority": 1
 }</code></pre>
                 <pre><code>404 Not Found
 {
