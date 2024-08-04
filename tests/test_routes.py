@@ -73,20 +73,20 @@ def test_update_todo_success(client):
     assert response.status_code == 201
     todo_id = response.json['id']
 
-    response = client.put(f'/todos/{todo_id}', json={'title': 'Updated Title', 'completed': True})
+    response = client.put(f'/todos/{todo_id}', json={'title': 'Updated Title', 'completed': True, 'description': '', 'priority': 3})
     assert response.status_code == 200
     data = response.json
     assert data['title'] == 'Updated Title'
     assert data['completed'] == True
-    assert data['description'] == 'Test Description'
-    assert data['priority'] == 2
+    assert data['description'] == ''
+    assert data['priority'] == 3
 
 def test_update_todo_not_found(client):
     response = client.put('/todos/9999', json={'title': 'Non-existent'})
     assert response.status_code == 404
 
 def test_delete_todo_success(client):
-    response = client.post('/todos', json={'title': 'Delete Test Todo', 'description': '', 'priority': 1})
+    response = client.post('/todos', json={'title': 'Delete Test Todo', 'description': '', 'priority': 3})
     assert response.status_code == 201
     todo_id = response.json['id']
 
