@@ -271,4 +271,9 @@ def setup_routes(app):
                       example: "ToDo item not found"
         """
         with db.session() as session:
+            todo = session.get(ToDo, id)
+            if todo is None:
+                abort(404)
+            session.delete(todo)
+            session.commit()
             return jsonify({'message': 'ToDo item deleted'})
