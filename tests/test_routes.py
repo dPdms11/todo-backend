@@ -54,12 +54,14 @@ def test_get_todos_with_items(client, populate_todos):
     assert 'Third Todo' in titles
 
 def test_create_todo_success(client):
-    response = client.post('/todos', json={'title': 'Test Todo'})
+    response = client.post('/todos', json={'title': 'Test Todo', 'description': 'Test Description', 'priority': 1})
     assert response.status_code == 201
     data = response.json
     assert 'id' in data
     assert data['title'] == 'Test Todo'
     assert data['completed'] == False
+    assert data['description'] == 'Test Description'
+    assert data['priority'] == 1
 
 def test_create_todo_missing_title(client):
     response = client.post('/todos', json={})
@@ -67,7 +69,7 @@ def test_create_todo_missing_title(client):
     assert b'Title is required' in response.data
 
 def test_update_todo_success(client):
-    response = client.post('/todos', json={'title': 'Update Test Todo'})
+    response = client.post('/todos', json={'title': 'Update Test Todo', 'description': 'Test Description', 'priority': 2})
     assert response.status_code == 201
     todo_id = response.json['id']
 
@@ -76,13 +78,15 @@ def test_update_todo_success(client):
     data = response.json
     assert data['title'] == 'Updated Title'
     assert data['completed'] == True
+    assert data['description'] == 'Test Description'
+    assert data['priority'] == 2
 
 def test_update_todo_not_found(client):
     response = client.put('/todos/9999', json={'title': 'Non-existent'})
     assert response.status_code == 404
 
 def test_delete_todo_success(client):
-    response = client.post('/todos', json={'title': 'Delete Test Todo'})
+    response = client.post('/todos', json={'title': 'Delete Test Todo', 'description': '', 'priority': 1})
     assert response.status_code == 201
     todo_id = response.json['id']
 
