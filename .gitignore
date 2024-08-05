@@ -1,10 +1,5 @@
 venv/
-INSTRUCTIONS.MD
-README*
-requirements.txt
 __pycache__
 instance/
 .env
-*.ini
-*.mako
 .DS_Store
